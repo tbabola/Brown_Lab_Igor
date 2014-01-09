@@ -236,7 +236,7 @@ function Do_a_Protocol(num) // num is the protocol number within a scheme and 0 
 			While (cycle_time < corrected_wait)
 			start_time = ticks
 			micros = StopMSTimer(ref1)
-			print micros/1000.0
+			//print micros/1000.0
 			ref1 = StartMSTimer
 			if (ref1 == -1)
 				printf "all MSTimers  are busy\r"
