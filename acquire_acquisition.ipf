@@ -1274,6 +1274,7 @@ function Do_a_Scheme(CntrlName) : ButtonControl
 	SVAR scheme
 	WAVE scheme_wait
 	WAVE adc0_avg,adc1_avg,adc2_avg,adc0_avg_temp,adc1_avg_temp,adc2_avg_temp,adc3_avg,adc3_avg_temp
+	Variable shutter_on = 0 //Controls switching of shutter for schemes requiring it; 0 = no shutter needed, 1 = shutter needed
 	para_change() // close the write file and make a new one
 // make 80 waves to be used for averaging 20 protocols
 	variable i = 0
@@ -1348,12 +1349,12 @@ function Do_a_Scheme(CntrlName) : ButtonControl
 			//10/30/2013 -- I reversed this.  Originally, the lamp shutter opened on protocol 0 and closed on
 			//protocol 2.  Now the shutter closes on protocol 0 and opens on protocol 2 so you can put as many
 			//additional protocol after 2 into the scheme as you want.
-			if (j==2)
+			if (j==2 && shutter_on)
 			Beep
 			VDTWrite2 "+\r"
 			endif
 			//if ((j==3) || (j==8)) // to have two stimuli in one scheme
-			if (j==0)
+			if (j==0 && shutter_on)
 			Beep
 			VDTWrite2 "-/r"
 			endif
