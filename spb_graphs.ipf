@@ -30,6 +30,59 @@ Window seal_all3() : Graph
 	TextBox/N=text0/A=MC/X=46.99/Y=47.77 "\\Z06PRO: Seal_all3\r          WC_all3"
 EndMacro
 
+Window CC0_1_graph2(start_time, end_time, graph_name) : Graph //does zoom in of area of interest
+	Variable start_time
+	Variable end_time
+	String graph_name
+	
+	DoWindow CC0_1_graph
+	If (V_flag == 1)					// Set V_flag to 1 if Graph0 window exists.
+		DoWindow /K CC0_1_graph
+	endif	
+	PauseUpdate; Silent 1		// building window...
+	Display /W=(6,237.8,401.4,416) adc0_avg_0 as $graph_name
+	AppendToGraph/L=left_bottom adc1_avg_0
+	AppendToGraph/L=right_bottom/B=bottom_right adc0_avg_1
+	AppendToGraph/L=right_top/B=bottom_right adc1_avg_1
+
+	ModifyGraph lSize=0.9
+	ModifyGraph rgb(adc1_avg_0)=(16384,48896,65280),rgb(adc1_avg_1)=(16384,48896,65280)
+	ModifyGraph fSize=6
+	ModifyGraph standoff=0
+	ModifyGraph lblPos(left)=28,lblPos(bottom)=32,lblPos(left_bottom)=28
+	ModifyGraph tickUnit=1
+	ModifyGraph btLen=3
+	ModifyGraph stLen=1
+	ModifyGraph freePos(left_bottom)={0,bottom}
+	ModifyGraph freePos(right_bottom)={0,bottom_right}
+	ModifyGraph freePos(bottom_right)=0
+	ModifyGraph freePos(right_top)={0,bottom_right}
+	ModifyGraph axisEnab(left)={0.7,1}
+	ModifyGraph axisEnab(bottom)={0,0.45}
+	ModifyGraph axisEnab(left_bottom)={0,0.65}
+	ModifyGraph axisEnab(right_bottom)={0,0.65}
+	ModifyGraph axisEnab(bottom_right)={0.55,1}
+	ModifyGraph axisEnab(right_top)={0.7,1}
+	Label left "\\Z06mV"
+	Label bottom " "
+	Label left_bottom "\\Z06mV"
+	Label right_bottom " "
+	Label bottom_right " "
+	Label right_top " "
+	TextBox/N=text0/A=MC/X=47.02/Y=48.17 "\\Z06PRO: S_CC0_1\r        CC0 <--> 1"
+	TextBox/N=text1/A=MC/X=-27.43/Y=51.83 "\\Z06CC0 --> 1"
+	TextBox/N=text2/A=MC/X=25.38/Y=51.83 "\\Z06CC1 --> 0"
+	
+	//Set Axis to Scale and Autoscale on Y based on visible axis
+	SetAxis bottom start_time, end_time 
+	SetAxis bottom_right start_time, end_time
+	SetAxis /A=2 left
+	SetAxis /A=2 left_bottom
+	SetAxis /A=2 right_top
+	SetAxis /A=2 right_bottom
+	
+EndMacro
+
 Window CC0_1_graph() : Graph
 	DoWindow CC0_1_graph
 	If (V_flag == 1)					// Set V_flag to 1 if Graph0 window exists.

@@ -7,6 +7,8 @@
 #include "spb_photofluorcontrol" //added June 1, 2012 to control the photofluor via COM5
 #include "RR_graph" //added June 8, 2012 by RR to show four individual avarages during photofluor scheme
 #include "RR_prints" //added June 15, 2012 by RR to prepare printout
+#include "TAB_Utilities" //added 140120 by TAB for utitilies
+#include "TAB_Layouts" //added 140120 by TAB for graphs
 
 function init_all()
 //	string /g InitFileName = "Acquire_Init.txt"

@@ -3456,6 +3456,11 @@ function query_average(CntrlName) : ButtonControl
 	variable i
 	variable temp
 	variable /g stop_averaging
+	
+	//Added to keep track of averaged and non-averaged traces
+	Wave included_traces = root:included_traces
+	Wave disregarded_traces = root:disregarded_traces
+	
 	if (stringmatch("init",CntrlName) == 1) // init
 		Make /O/N=(samples) adc0_temp, adc1_temp, adc0_avg_0, adc1_avg_0,adc2_temp,adc2_avg_0,adc3_temp,adc3_avg_0
 		if ((bin_type == 0) %| (bin_type == 10) %| (bin_type == 100))
@@ -3494,6 +3499,12 @@ function query_average(CntrlName) : ButtonControl
 //		ModifyGraph rgb(adc1_avg)=(0,34816,52224)
 		printf "Start query average file: %s\r", read_file_name
 		init_g_average(1)
+		
+		//Added to keep track of averaged and non-averaged traces
+		Make /O/N=0 root:included_traces 
+		Make /O/N=0 root:disregarded_traces
+		
+		
 		return(0)
 	Endif
 	
@@ -3502,6 +3513,8 @@ function query_average(CntrlName) : ButtonControl
 		return(0)
 	Endif
 	if ((stringmatch("include",CntrlName) == 1) || (stringmatch("include1",CntrlName) == 1)) // include
+		InsertPoints numPnts(included_traces), 1, included_traces
+		included_traces[numPnts(included_traces)-1] = trace_num
 		traces_analyzed += 1
 		printf "Included trace: %d;  number of traces analyzed: %f\r", trace_num, traces_analyzed
 		adc1_temp += adc1
@@ -3550,6 +3563,8 @@ function query_average(CntrlName) : ButtonControl
 		Get_a_trace(trace_num)
 	Endif
 	if ((stringmatch("do_not_include",CntrlName) == 1) || (stringmatch("do_not_include1",CntrlName) == 1)) // do not include
+		InsertPoints numPnts(disregarded_traces), 1,disregarded_traces
+		disregarded_traces[numPnts(disregarded_traces)-1] = trace_num
 		amp_points_wave_0[analysed_points_wave[0]-1] = NAN
 		temp = trace_num
 		if (alternate == 0)
