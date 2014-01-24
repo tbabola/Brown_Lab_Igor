@@ -4661,7 +4661,7 @@ function Do_Average(CntrlName) : ButtonControl
 	NVAR adc0_avg_flag, adc1_avg_flag, adc2_avg_flag, adc3_avg_flag
 	NVAR init_display, concat, samples, trace_num, trace_end, freq
 	variable temp_adc0_avg_flag, temp_adc1_avg_flag, temp_adc2_avg_flag, temp_adc3_avg_flag
-	if(concat)
+	if(concat==0)
 		make/o/n=(samples*trace_end) concat_0=0, concat_1=0, concat_2=0, concat_3=0
 		SetScale /P x 0, (1.0/freq), "ms", concat_0, concat_1, concat_2, concat_3
 		SetScale d, -200, 200, "pA", concat_0, concat_1, concat_2, concat_3
